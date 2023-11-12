@@ -1,8 +1,7 @@
 <?php 
 include('connection.php');
-?>
 
-<?php
+//register student to database
 if(isset($_POST['submit'])) {
 $name = $_POST['lname'] . " " . $_POST['mname'] . " " . $_POST['fname'];
 $section = $_POST['section'];

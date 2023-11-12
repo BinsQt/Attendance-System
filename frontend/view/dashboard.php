@@ -2,9 +2,7 @@
 include('frontend\view\navbar.php');
 require_once('backend\connection.php');
 
-
-
-$sqlselect = "SELECT * 
+$select = "SELECT * 
 FROM student_data
 LEFT JOIN student_attendance 
 ON student_data.user_key = student_attendance.user_key
@@ -12,7 +10,7 @@ JOIN schedule
 ON student_attendance.date = schedule.date
 ORDER BY fullname ASC";
 
-$result = mysqli_query($conn, $sqlselect);
+$result = mysqli_query($conn, $select);
 
 ?>
 
@@ -366,18 +364,9 @@ $(document).ready(function(){
 
                         <td>
                         <?php   
-
-                            if($time > $time_in) {
-
-                                $sendMessage = 1;
-
-                                $sql_send = "INSERT INTO student_contacts (user_key, recipientNumber, sendMessage) VALUES 
-                                ('$user_key', '$contactNumber', '$sendMessage')";
-                            
-                                if (mysqli_query($conn,$sql_send)) {
-                                    echo "Late";;
-                                }
-                            }
+                            if($time > $time_in) { 
+                                echo "Late";
+                            } 
                         ?>  
                         </td>
 
