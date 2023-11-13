@@ -346,7 +346,9 @@ $(document).ready(function(){
                         <td>
                         <?php   
                             // echo $timein
-                            if ($timein = 1) {
+                            if ($timein < 1) {
+                                echo "";
+                            } elseif ($timein = 1){
                                 echo $time;
                             }
                         ?>  
@@ -356,7 +358,9 @@ $(document).ready(function(){
                         <?php   
                             // echo $timeout
                            
-                            if ($timeout = 1) {
+                            if ($timeout < 1) {
+                                echo "";
+                            } elseif ($timeout = 1){
                                 echo $time;
                             }
                         ?>  
