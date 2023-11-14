@@ -233,7 +233,7 @@ $(document).ready(function(){
                     <h1>Section 1</h1>
                     <div class="sortDate">
                         <h3>date: </h3>
-                        <input type="date" name="sortDate" id="sortDate" value="<?php $dates = date("Y-m-d"); echo $dates;?>">
+                        <input type="date" name="sortDate" id="sortDate">
                     </div>
                     <div x-data="{ open: false }">
                         <span>Sort:</span>
@@ -272,7 +272,7 @@ $(document).ready(function(){
                                 $dates = date("Y-m-d");
                                 $time = $row['time'];
                                 $timein = $row['timein'];
-                                $timeout = $row['timeout']; 
+                                $timeout = $row['timeout'];
                                 $time_in = $row['time_in'];
                                 $time_out = $row['time_out'];
                                 $section = $row["section"];

@@ -26,17 +26,17 @@ include('connection.php');
         $user_key = $row["user_key"];
         $name = $row["fullname"];
         $user_keys = $_GET["user_key"];
-        $timeIn = date("H:i A");
+        $timeIn_ = date("h:i A");
         $contactNumber = $row["contactNumber"];
         $time_in = $row['time_in'];
         $date = $row['date'];
 
-            //convert name into array
-            $name_parts = explode(" ", $name);
-            $lastname = array_slice($name_parts, 0)[0];
-            $firstname = array_slice($name_parts, 2)[0];
-            $middlename = array_slice($name_parts, 1)[0];
-            $fullName = $lastname . ", " . $firstname . " " . $middlename;
+            // //convert name into array
+            // $name_parts = explode(" ", $name);
+            // $lastname = array_slice($name_parts, 0)[0];
+            // $firstname = array_slice($name_parts, 2)[0];
+            // $middlename = array_slice($name_parts, 1)[0];
+            // $fullName = $lastname . " " . $firstname . " " . $middlename;
     
             if($user_key != $user_keys) {
                 $sendMessage = 0;
@@ -48,7 +48,7 @@ include('connection.php');
         if($time > $time_in) {
             echo"Late";
             $sql_send = "INSERT INTO student_contacts (user_key, recipientNumber, sendMessage, name, timeIn) VALUES 
-            ('$user_key', '$contactNumber', '$sendMessage', '$fullName', '$timeIn')";
+            ('$user_key', '$contactNumber', '$sendMessage', '$name', '$timeIn_')";
 
             if(mysqli_query($conn,$sql_send)) {
                 echo"Late";
@@ -80,7 +80,7 @@ $result = mysqli_query($conn, $sendselect);
         $names = $row["name"];
         $timeIn = $row["timeIn"];
     }
-    echo "User: $user_keys, Number: $contactNumbers, One: $sendMessages, Name: $names, TimeIn: $timeIn";
+    echo "User: $user_keys, Number: $contactNumbers, One: $sendMessages, FullName: $names, TimeIn: $timeIn";
 
 
 ?>
