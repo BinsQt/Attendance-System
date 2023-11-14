@@ -24,31 +24,41 @@ include('connection.php');
 
         while($row = mysqli_fetch_assoc($sendMsg)) {
         $user_key = $row["user_key"];
+        $name = $row["fullname"];
         $user_keys = $_GET["user_key"];
+        $timeIn = date("H:i A");
         $contactNumber = $row["contactNumber"];
         $time_in = $row['time_in'];
         $date = $row['date'];
-        // $sendMessage = 1;
-        if($user_key != $user_keys) {
-            $sendMessage = 0;
-        }else {
-            $sendMessage = 1;
-        }
-        }
 
-        if($timein < $time_in) {
-            $sql_send = "INSERT INTO student_contacts (user_key, recipientNumber, sendMessage) VALUES 
-            ('$user_key', '$contactNumber', '$sendMessage')";
-
-        if(mysqli_query($conn,$sql_send)) {
-            echo"N";
-        } else {
-            echo "error";
+            //convert name into array
+            $name_parts = explode(" ", $name);
+            $lastname = array_slice($name_parts, 0)[0];
+            $firstname = array_slice($name_parts, 2)[0];
+            $middlename = array_slice($name_parts, 1)[0];
+            $fullName = $lastname . ", " . $firstname . " " . $middlename;
+    
+            if($user_key != $user_keys) {
+                $sendMessage = 0;
+            }else {
+                $sendMessage = 1;
+            }
         }
 
-        } elseif ($timein > $time_in) {
+        if($time > $time_in) {
+            echo"Late";
+            $sql_send = "INSERT INTO student_contacts (user_key, recipientNumber, sendMessage, name, timeIn) VALUES 
+            ('$user_key', '$contactNumber', '$sendMessage', '$fullName', '$timeIn')";
 
-            echo "Late";
+            if(mysqli_query($conn,$sql_send)) {
+                echo"Late";
+            } else {
+                echo "error";
+            }
+
+        } elseif ($time < $time_in) {
+
+            echo "Not Late";
         }
 
     } else {
@@ -67,8 +77,10 @@ $result = mysqli_query($conn, $sendselect);
         $user_keys = $row["user_key"];
         $contactNumbers = $row["recipientNumber"];
         $sendMessages = $row["sendMessage"];
+        $names = $row["name"];
+        $timeIn = $row["timeIn"];
     }
-    echo "User: $user_keys, Number: $contactNumbers, One: $sendMessages";
+    echo "User: $user_keys, Number: $contactNumbers, One: $sendMessages, Name: $names, TimeIn: $timeIn";
 
 
 ?>

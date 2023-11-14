@@ -94,7 +94,7 @@ li{
     border-left: 1px solid black;
     padding-left: 20px;
     width: 90%;
-    overflow-x:hidden;
+    overflow-x:scroll;
     overflow-y: scroll;
 }
 

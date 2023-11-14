@@ -233,7 +233,7 @@ $(document).ready(function(){
                     <h1>Section 1</h1>
                     <div class="sortDate">
                         <h3>date: </h3>
-                        <input type="date" name="sortDate" id="sortDate">
+                        <input type="date" name="sortDate" id="sortDate" value="<?php $dates = date("Y-m-d"); echo $dates;?>">
                     </div>
                     <div x-data="{ open: false }">
                         <span>Sort:</span>
@@ -255,7 +255,7 @@ $(document).ready(function(){
                         <th>Attendance</th>
                         <th>user_key</th>
                         <th>Date</th>
-                        <th>Time In</th>
+                        <th>TimeIn</th>
                         <th>Time Out</th>
                         <th>Late</th>
                         <th>View</th>	
@@ -269,9 +269,10 @@ $(document).ready(function(){
                                 $user_key = $row["user_key"];
                                 $name = $row["fullname"];
                                 $date = $row['date'];
+                                $dates = date("Y-m-d");
                                 $time = $row['time'];
                                 $timein = $row['timein'];
-                                $timeout = $row['timeout'];
+                                $timeout = $row['timeout']; 
                                 $time_in = $row['time_in'];
                                 $time_out = $row['time_out'];
                                 $section = $row["section"];
@@ -319,7 +320,7 @@ $(document).ready(function(){
                         <td>
                         <?php      
                             //attendance
-                            if ($time >= $timeout && $date) {
+                            if ($time >= $timeout && $date  = $dates) {
                                 echo "Absent"; 
                             } elseif ($attendance = 1) {
                                 echo "Present";
