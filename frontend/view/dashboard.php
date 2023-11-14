@@ -2,44 +2,24 @@
 include('frontend\view\navbar.php');
 require_once('backend\connection.php');
 
-$select = "SELECT * 
-FROM student_data
+$select = "SELECT student_data.*, student_attendance.*, schedule.*
+FROM student_data 
 LEFT JOIN student_attendance 
 ON student_data.user_key = student_attendance.user_key
-JOIN schedule 
-ON student_attendance.date = schedule.date
-ORDER BY fullname ASC";
+LEFT JOIN schedule
+ON student_attendance.date = schedule.date";
 
 $result = mysqli_query($conn, $select);
 
+
 ?>
-
-<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-
-$(document).ready(function(){
-  $("#sortDate").on("input", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
 
 <div class="page">
     <div class="sidebar">
         <div class="side-header">
             <div>
             <div class="icon">
-                <img src="frontend\img\—Pngtree—vector edit profile icon_4101351.png" alt="" class="image">
+                <img src="frontend\img\profileIcon.png" alt="" class="image">
             </div>
             <div>
                 <h3>Adviser</h3>
@@ -191,7 +171,14 @@ $(document).ready(function(){
 
                                 <div class="section">
                                     <label for="user_key">User Key</label>
-                                    <input type="text" name="user_key" id="user_key">
+                                    <!-- <input type="text" name="user_key" id="user_key"> -->
+                                    <select name="user_key" id="user_key">
+                                        <option value="0"> </option>
+                                        <option value="a36faba1">a36faba1</option>
+                                        <option value="2f25e000">2f25e000</option>
+                                        <option value="2f92c100">2f92c100</option>
+                                        <option value="2f9d2f00">2f9d2f00</option>
+                                    </select>
                                 </div>
 
                                 <div class="section">
@@ -233,7 +220,7 @@ $(document).ready(function(){
                     <h1>Section 1</h1>
                     <div class="sortDate">
                         <h3>date: </h3>
-                        <input type="date" name="sortDate" id="sortDate">
+                        <input type="date" name="sortDate" id="sortDate" value="<?php echo date("Y-m-d"); ?>">
                     </div>
                     <div x-data="{ open: false }">
                         <span>Sort:</span>
@@ -265,6 +252,9 @@ $(document).ready(function(){
                     <tbody id="myTable"> 
                         <tr>
                         <?php 
+                        if ($result->num_rows > 0){
+                            
+                        
                             while($row = mysqli_fetch_assoc($result)) {
                                 $user_key = $row["user_key"];
                                 $name = $row["fullname"];
@@ -321,27 +311,19 @@ $(document).ready(function(){
                         <td>
                         <?php      
                             //attendance
-                            if ($timeout > $time_out) {
-                                echo "Absent"; 
-                            } elseif ($attendance = 1) {
-                                echo "Present";
-
-                                
-                            } else {
-                                echo"*";
-                            }
+                            echo $timein;
                         ?>  
                         </td>
 
                         <td>
                         <?php   
-                            echo $user_key
+                            echo $user_key;
                         ?>  
                         </td>
 
                         <td>
                         <?php   
-                            echo $date
+                            echo $date;
                         ?>  
                         </td>
                             
@@ -370,9 +352,11 @@ $(document).ready(function(){
 
                         <td>
                         <?php   
-                            if($twentyfour > $time_in) { 
+                            if($twentyfour > $time_in && $twentyfour < $time_out) { 
                                 echo "Late";
-                            } 
+                            }  else {
+                                echo "";
+                            }
                         ?>  
                         </td>
 
@@ -386,6 +370,9 @@ $(document).ready(function(){
     
                         <?php 
                             }
+                        } else {
+                            echo "0 Results";
+                        }
                         ?>
                     </tbody>
                     
@@ -407,6 +394,25 @@ $(document).ready(function(){
     </div>
 </div>
 
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#sortDate").on("input", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 
 </body>
 </html>

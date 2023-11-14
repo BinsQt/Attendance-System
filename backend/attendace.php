@@ -1,29 +1,38 @@
-<?php 
+<?php
 include('connection.php');
-    //collect students who tapped from hardware
-    date_default_timezone_set("Asia/Manila");
-    $userkey = $_GET['user_key'];
-    $timein = $_GET['timein'];
-    $timeout = $_GET['timeout'];
-    $twentyfour = date("H:i A");
-    $date = date("Y-m-d");
-    $time = date("h:i A");
-   
-    $sql_att = "INSERT INTO student_attendance (user_key, timein, date, time, timeout, twentyfour) VALUES 
-    ('$userkey', '$timein', '$date', '$time', '$timeout', '$twentyfour')";
+date_default_timezone_set("Asia/Manila");
+$userkey = $_GET['user_key'];
+$timein = $_GET['timein'];
+$timeout = $_GET['timeout'];
+$date = date("Y-m-d");
+$time = date("h:i A");
+$twentyfour = date("H:i");
 
-    if (mysqli_query($conn,$sql_att)) {
-        //send student to database for lates
-        $message = "SELECT * 
-        FROM student_data
-        LEFT JOIN student_attendance 
-        ON student_data.user_key = student_attendance.user_key
-        JOIN schedule 
-        ON student_attendance.date = schedule.date";
-        
-        $sendMsg = mysqli_query($conn, $message);
+$attendance = ($timein == 1) ? "Present" : "Absent";
 
-        while($row = mysqli_fetch_assoc($sendMsg)) {
+$absent = "SELECT * FROM schedule";
+$absent_ = mysqli_query($conn, $absent);
+while($row = mysqli_fetch_assoc($absent_)) {
+    $time_out = $row["time_out"];
+    if ($twentyfour > $time_out) {
+        $attendance = "Absent";
+    }
+}
+
+$sql_att = "INSERT INTO student_attendance (user_key, timein, date, time, timeout, twentyfour) VALUES 
+('$userkey', '$attendance', '$date', '$time', '$timeout', '$twentyfour')";
+
+if (mysqli_query($conn,$sql_att)) {
+    $message = "SELECT * 
+    FROM student_data
+    LEFT JOIN student_attendance 
+    ON student_data.user_key = student_attendance.user_key
+    LEFT JOIN schedule 
+    ON student_attendance.date = schedule.date";
+    
+    $sendMsg = mysqli_query($conn, $message);
+
+    while($row = mysqli_fetch_assoc($sendMsg)) {
         $user_key = $row["user_key"];
         $name = $row["fullname"];
         $user_keys = $_GET["user_key"];
@@ -33,19 +42,7 @@ include('connection.php');
         $date = $row['date'];
         $twentyfour = $row['twentyfour'];
 
-            // //convert name into array
-            // $name_parts = explode(" ", $name);
-            // $lastname = array_slice($name_parts, 0)[0];
-            // $firstname = array_slice($name_parts, 2)[0];
-            // $middlename = array_slice($name_parts, 1)[0];
-            // $fullName = $lastname . " " . $firstname . " " . $middlename;
-    
-            if($user_key != $user_keys) {
-                $sendMessage = 0;
-            }else {
-                $sendMessage = 1;
-            }
-        }
+        $sendMessage = ($user_key != $user_keys) ? 0 : 1;
 
         if($twentyfour > $time_in) {
             echo"Late";
@@ -59,20 +56,18 @@ include('connection.php');
             }
 
         } elseif ($time < $time_in) {
-
             echo "Not Late";
         }
-
-    } else {
-        echo "Error: " . $sql_att . "<br>" . $conn->error;  
     }
-
-    
+} else {
+    echo "Error: " . $sql_att . "<br>" . $conn->error;  
+}
 ?>
+
 
 <?php
 //collect late students from database then send to hardware
-$sendselect = "SELECT * FROM student_contacts   ";
+$sendselect = "SELECT * FROM student_contacts";
 
 $result = mysqli_query($conn, $sendselect);
     while($row = mysqli_fetch_assoc($result)) {
