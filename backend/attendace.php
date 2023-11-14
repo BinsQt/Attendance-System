@@ -5,11 +5,12 @@ include('connection.php');
     $userkey = $_GET['user_key'];
     $timein = $_GET['timein'];
     $timeout = $_GET['timeout'];
+    $twentyfour = date("H:i A");
     $date = date("Y-m-d");
-    $time = date("H:i A");
+    $time = date("h:i A");
    
-    $sql_att = "INSERT INTO student_attendance (user_key, timein, date, time, timeout) VALUES 
-    ('$userkey', '$timein', '$date', '$time', '$timeout')";
+    $sql_att = "INSERT INTO student_attendance (user_key, timein, date, time, timeout, twentyfour) VALUES 
+    ('$userkey', '$timein', '$date', '$time', '$timeout', '$twentyfour')";
 
     if (mysqli_query($conn,$sql_att)) {
         //send student to database for lates
@@ -30,6 +31,7 @@ include('connection.php');
         $contactNumber = $row["contactNumber"];
         $time_in = $row['time_in'];
         $date = $row['date'];
+        $twentyfour = $row['twentyfour'];
 
             // //convert name into array
             // $name_parts = explode(" ", $name);
@@ -45,7 +47,7 @@ include('connection.php');
             }
         }
 
-        if($time > $time_in) {
+        if($twentyfour > $time_in) {
             echo"Late";
             $sql_send = "INSERT INTO student_contacts (user_key, recipientNumber, sendMessage, name, timeIn) VALUES 
             ('$user_key', '$contactNumber', '$sendMessage', '$name', '$timeIn_')";

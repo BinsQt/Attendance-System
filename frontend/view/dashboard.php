@@ -275,6 +275,7 @@ $(document).ready(function(){
                                 $timeout = $row['timeout'];
                                 $time_in = $row['time_in'];
                                 $time_out = $row['time_out'];
+                                $twentyfour = $row['twentyfour'];
                                 $section = $row["section"];
                                 $grade = $row["grade"];
                                 $address = $row["address"];
@@ -320,7 +321,7 @@ $(document).ready(function(){
                         <td>
                         <?php      
                             //attendance
-                            if ($time >= $timeout && $date  = $dates) {
+                            if ($timeout > $time_out) {
                                 echo "Absent"; 
                             } elseif ($attendance = 1) {
                                 echo "Present";
@@ -369,7 +370,7 @@ $(document).ready(function(){
 
                         <td>
                         <?php   
-                            if($time > $time_in) { 
+                            if($twentyfour > $time_in) { 
                                 echo "Late";
                             } 
                         ?>  
