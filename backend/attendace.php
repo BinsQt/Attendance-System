@@ -14,7 +14,7 @@ $absent = "SELECT * FROM schedule";
 $absent_ = mysqli_query($conn, $absent);
 while($row = mysqli_fetch_assoc($absent_)) {
     $time_out = $row["time_out"];
-    if ($twentyfour > $time_out) {
+    if ($twentyfour > $time_out && $timein != 1) {
         $attendance = "Absent";
     }
 }
@@ -44,7 +44,7 @@ if (mysqli_query($conn,$sql_att)) {
 
         $sendMessage = ($user_key != $user_keys) ? 0 : 1;
 
-        if($twentyfour > $time_in) {
+        if($twentyfour > $time_in && $twentyfour < $time_out) {
             echo"Late";
             $sql_send = "INSERT INTO student_contacts (user_key, recipientNumber, sendMessage, name, timeIn) VALUES 
             ('$user_key', '$contactNumber', '$sendMessage', '$name', '$timeIn_')";

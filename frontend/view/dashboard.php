@@ -63,7 +63,7 @@ $result = mysqli_query($conn, $select);
                             </div>
 
                             <div>
-                                <label for="timeout">Time In</label>
+                                <label for="timeout">Time Out</label>
                                 <input type="time" name="timeout">
                             </div>
                         </div>
@@ -311,7 +311,30 @@ $result = mysqli_query($conn, $select);
                         <td>
                         <?php      
                             //attendance
-                            echo $timein;
+                            
+                            if($timeout != 1) {
+                                if($timein == "Present") {
+                                    if ($twentyfour < $time_in) {
+                                        echo "Present";
+                                    } elseif ($twentyfour > $time_in) {
+                                        if ($twentyfour > $time_out) {
+                                            echo "Absent";
+                                        } else {
+                                            echo "Present";
+                                        }
+                                    }
+                                } elseif ($timein != "Present") {
+                                    echo "Absent";
+                                } 
+                            } elseif ($timeout == 1) {
+                                
+                                if ($twentyfour < $time_out) {
+                                    echo "Early Time Out";
+                                } elseif ($twentyfour > $time_out) {
+                                    echo "Time Out";
+                                } 
+
+                            } 
                         ?>  
                         </td>
 
@@ -330,9 +353,9 @@ $result = mysqli_query($conn, $select);
                         <td>
                         <?php   
                             // echo $timein
-                            if ($timein < 1) {
+                            if ($timein != "Present") {
                                 echo "";
-                            } elseif ($timein = 1){
+                            } elseif ($timein = "Present"){
                                 echo $time;
                             }
                         ?>  
