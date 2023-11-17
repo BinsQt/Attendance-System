@@ -13,72 +13,90 @@ $result = mysqli_query($conn, $select);
 
 
 ?>
-
 <div class="page">
+    <div class="sidebar-container">
     <div class="sidebar">
-        <div class="side-header">
-            <div>
-            <div class="icon">
-                <img src="frontend\img\profileIcon.png" alt="" class="image">
+        <div class="head-main">
+            <div class="side-header-container">
+                <div class="side-header">
+                    <div class="icon">
+                        <img src="frontend\img\profileIcon.png" alt="" class="image">
+                    </div>
+                    <div>
+                        <h3>Adviser</h3>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3>Adviser</h3>
-            </div>
-            </div>
-            <div class="sections">
-            <div>
-                <h2>Sections</h2>
-            </div>
-            <div>
-                <ul>
-                    <li><button class="sec active">Section 1</button></li>
-                    <li><button class="sec">Section 2</button></li>
-                    <li><button class="sec">Section 3</button></li>
-                    <li><button class="sec">Section 4</button></li>
-                    <li><button class="sec">Section 5</button></li>
-                </ul>
-            </div>
-            </div>
-        </div>
-        <div class="sidebar-footer"> 
-        <div x-data="{ open: false }">
-            <button @click="open = ! open" class="but-settings">Settings</button>
-                
-            <div x-show="open" @click.outside="open = false" class="settings">
-                <h1>Settings</h1>
-                <br><br>
-                <div>
-                    <form class="sched" action="backend\schedule.php" method="get">
-                        <h4>Edit Schedule</h4>
+            <div class="side-main-container">
+                <div class="side-main">
+                    <div class="section-header">
+                        <h2>Sections</h2>
+                    </div>
+                    <div class="sections">
+                        <div class="section-list">
+                            <ul>
+                                <li><button class="sec active">Section 1</button></li>
+                                <li><button class="sec">Section 2</button></li>
+                                <li><button class="sec">Section 3</button></li>
+                                <li><button class="sec">Section 4</button></li>
+                                <li><button class="sec">Section 5</button></li>
 
-                        <div class="date">
-                            <label for="date">Date</label>
-                            <input type="date" name="date" value="<?php echo date("Y-m-d"); ?>">
+
+                            </ul>
                         </div>
-
-                        <div class="ti-to">
-                            <div>
-                                <label for="timein">Time In</label>
-                                <input type="time" name="timein">
-                            </div>
-
-                            <div>
-                                <label for="timeout">Time Out</label>
-                                <input type="time" name="timeout">
-                            </div>
-                        </div>
-
-
-
-                        <div>
-                            <button type="submit" name="schedule_submit">Set Schedule</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="sidebar-footer"> 
+            <div x-data="{ open: false }">
+                <button @click="open = ! open" class="but-settings">Settings</button>
+                    
+                <div x-show="open" @click.outside="open = false" class="settings">
+                    <div>
+                    <h1>Settings</h1>
+                    </div>
+                    <br><br>
+                    <div>
+                        <form class="sched" action="backend\schedule.php" method="get">
+                            <h4>Edit Schedule</h4>
+
+                            <div class="date">
+                                <label for="date">Date</label>
+                                <input type="date" name="date" value="<?php echo date("Y-m-d"); ?>">
+                            </div>
+
+                            <div class="ti-to">
+                                <div>
+                                    <label for="timein">Time In</label>
+                                    <input type="time" name="timein">
+                                </div>
+
+                                <div>
+                                    <label for="timeout">Time Out</label>
+                                    <input type="time" name="timeout">
+                                </div>
+
+                                <div>
+
+                                <a href="backend/reset.php" class="btn btn-info btn-sm">Reset</a>
+                                </div>  
+                            </div>
+
+
+
+                            <div>
+                                <button type="submit" name="schedule_submit">Set Schedule</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="logOut">
             <a href="#" class=logout>Logout</a>
+            </div>
         </div>
+    </div>
     </div>
     <div class="content">
         <div class="main">
@@ -203,13 +221,120 @@ $result = mysqli_query($conn, $select);
                 <div x-data="{ open: false }">
                     <button @click="open = ! open" class="edit">Edit Student</button>
                 
-                    <div x-show="open" @click.outside="open = false" class="alpine">Contents...</div>
+                    <div x-show="open" @click.outside="open = false" class="alpine">
+                    <div class="addstudent">
+                            <div>
+                               <h2>Edit Student</h2> 
+                            </div>
+                            
+                            <div>
+                            <form action="backend\addstudent.php" method="post">
+                                <div class="blocks">
+                                <div class="section">
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" name="lname" id="">
+                                </div>
+
+                                <div class="section">
+                                    <label for="fname">First Name</label>
+                                    <input type="text" name="fname" id="">
+                                </div>
+
+                                <div class="section">
+                                    <label for="mname">Middle Name</label>
+                                    <input type="text" name="mname" id="">
+                                </div>
+                                </div>
+
+                                <div class="section">
+                                    <label for="address">Address</label>
+                                    <input type="text" name="address" id="">
+                                </div>
+
+                                <div class="blocks">
+                                <div class="section">
+                                    <label for="section">Section</label>
+                                    <select name="section" id="section">
+                                        <option value="0"> </option>
+                                        <option value="1">Section 1 </option>
+                                        <option value="2">Section 2 </option>
+                                        <option value="3">Section 3 </option>                                    
+                                    </select>
+                                </div>
+
+                                <div class="section">
+                                    <label for="grade">Grade</label>
+                                    <select name="grade" id="grade">
+                                        <option value="0"></option>
+                                        <option value="1">Grade 1</option>
+                                        <option value="2">Grade 2</option>
+                                        <option value="3">Grade 3</option>
+                                        <option value="4">Grade 4</option>
+                                        <option value="5">Grade 5</option>
+                                        <option value="6">Grade 6</option>
+                                        <option value="7">Grade 7</option>
+                                        <option value="8">Grade 8</option>
+                                        <option value="9">Grade 9</option>
+                                        <option value="10">Grade 10</option>
+                                        <option value="11">Grade 11</option>
+                                        <option value="12">Grade 12</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="section">
+                                    <label for="sex">Sex</label>
+                                    <select name="sex" id="sex">
+                                        <option value="0"> </option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+
+                                </div>
+
+                                <div class="blocks">
+                               <div class="section">
+                                    <label for="birthday">Date of Birth</label>
+                                    <input type="date" name="birthday" id="">
+                                </div>
+
+                                <div class="section">
+                                    <label for="user_key">User Key</label>
+                                    <!-- <input type="text" name="user_key" id="user_key"> -->
+                                    <select name="user_key" id="user_key">
+                                        <option value="0"> </option>
+                                        <option value="a36faba1">a36faba1</option>
+                                        <option value="2f25e000">2f25e000</option>
+                                        <option value="2f92c100">2f92c100</option>
+                                        <option value="2f9d2f00">2f9d2f00</option>
+                                    </select>
+                                </div>
+
+                                <div class="section">
+                                    <label for="contactNumber">Contact Number</label>
+                                    <input type="text" name="contactNumber" id="contactNumber">
+                                </div>
+                                </div>
+ 
+                                <div class="section">
+                                    <input type="submit" name="submit" value="Submit" class="submit-b"> 
+                                </div>
+                                
+                            </form>
+
+                            </div>
+
+                        
+                        </div>
+                    </div>
                 </div>
 
-                <div x-data="{ open: false }">
-                    <button @click="open = ! open" class="delete">Delete Student</button>
-                
-                    <div x-show="open" @click.outside="open = false" class="alpine">Contents...</div>
+                <div class="delete_">
+
+                    <a href="backend/deletestudent.php" class="delete">Delete Students</a>
+
+
                 </div>
 
                 </div>
@@ -384,7 +509,7 @@ $result = mysqli_query($conn, $select);
                         </td>
 
                         <td>
-                            <button>View</button>
+                        <a href="backend/view.php?id=<?= $user_key; ?>" class="btn btn-info btn-sm">View</a>
                         </td>
 
 

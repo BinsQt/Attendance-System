@@ -19,6 +19,7 @@ include('backend/connection.php');
             display: flex;
             justify-content: center;
             height: 4vw;
+            width: 100%;
             align-items: center;
         }
 
